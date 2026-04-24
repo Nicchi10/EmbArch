@@ -1,0 +1,157 @@
+{
+  "faqs": [
+    {
+      "faq_id": 1,
+      "query": "Come resetto la password?",
+      "answer": "Vai su Impostazioni > Sicurezza > Reimposta password. Riceverai un'email con le istruzioni."
+    },
+    {
+      "faq_id": 2,
+      "query": "Quali sono gli orari di apertura?",
+      "answer": "Lun-Ven 9:00-18:00, Sab 10:00-13:00. Chiusi la domenica e i festivi."
+    },
+    {
+      "faq_id": 3,
+      "query": "Dove posso scaricare la fattura?",
+      "answer": "Area Clienti > Documenti > Fatture. Disponibili in PDF per gli ultimi 24 mesi."
+    },
+    {
+      "faq_id": 4,
+      "query": "Come contatto l'assistenza?",
+      "answer": "Puoi scriverci a support@example.com oppure chiamare il numero verde 800-123-456."
+    },
+    {
+      "faq_id": 5,
+      "query": "Quanto costa la spedizione?",
+      "answer": "Spedizione standard 4,90€, gratuita sopra i 49€. Espressa 9,90€."
+    },
+    {
+      "faq_id": 6,
+      "query": "Posso restituire un prodotto?",
+      "answer": "Sì, entro 30 giorni dall'acquisto. Il prodotto deve essere integro e nella confezione originale."
+    },
+    {
+      "faq_id": 7,
+      "query": "Quali metodi di pagamento accettate?",
+      "answer": "Carte di credito/debito, PayPal, bonifico bancario e Apple/Google Pay."
+    },
+    {
+      "faq_id": 8,
+      "query": "Come traccio il mio ordine?",
+      "answer": "Dal link nella mail di conferma spedizione, oppure da Area Clienti > I miei ordini."
+    },
+    {
+      "faq_id": 9,
+      "query": "Posso cambiare l'indirizzo di spedizione?",
+      "answer": "Sì, finché l'ordine non è stato preso in carico dal magazzino. Contatta subito l'assistenza."
+    },
+    {
+      "faq_id": 10,
+      "query": "Cos'è il programma fedeltà?",
+      "answer": "Ogni euro speso vale 1 punto. Raggiunti 100 punti ricevi un buono da 5€."
+    },
+    {
+      "faq_id": 11,
+      "query": "Perché non ricevo le email?",
+      "answer": "Controlla la cartella spam e assicurati che l'indirizzo sia corretto nel profilo."
+    },
+    {
+      "faq_id": 12,
+      "query": "Come elimino il mio account?",
+      "answer": "Impostazioni > Privacy > Elimina account. L'operazione è irreversibile dopo 14 giorni."
+    },
+    {
+      "faq_id": 13,
+      "query": "Avete un'app mobile?",
+      "answer": "Sì, disponibile su App Store e Google Play cercando 'Example App'."
+    },
+    {
+      "faq_id": 14,
+      "query": "Fate consegne all'estero?",
+      "answer": "Spediamo in tutta l'UE. Tempi e costi variano in base al Paese di destinazione."
+    },
+    {
+      "faq_id": 15,
+      "query": "Il prodotto è coperto da garanzia?",
+      "answer": "Sì, tutti i prodotti hanno garanzia legale di 24 mesi come da normativa UE."
+    },
+
+    {
+      "faq_id": 16,
+      "query": "perché il mio gatto fissa il muro alle 3 di notte?",
+      "answer": "I gatti hanno una vista e un udito molto più sviluppati dei nostri. Probabilmente sente o vede qualcosa di impercettibile per te (insetti, correnti d'aria, riflessi)."
+    },
+    {
+      "faq_id": 17,
+      "query": "I pinguini hanno le ginocchia?",
+      "answer": "Sì! Le hanno, ma sono nascoste sotto le piume vicino al corpo. Per questo sembra che camminino con le gambe cortissime."
+    },
+    {
+      "faq_id": 18,
+      "query": "Quanto è lungo un secondo su Giove?",
+      "answer": "Un secondo è un secondo ovunque: è una misura di tempo, non dipende dal pianeta. Su Giove però un giorno dura circa 9 ore e 56 minuti."
+    },
+    {
+      "faq_id": 19,
+      "query": "Posso parlare con un umano?",
+      "answer": "Certo! Digita 'operatore' oppure premi 0 per essere messo in contatto con un addetto."
+    },
+    {
+      "faq_id": 20,
+      "query": "Sei un robot?",
+      "answer": "Sono un assistente virtuale, ma sono qui per aiutarti davvero. Se preferisci un operatore umano, basta dirlo."
+    },
+
+    {
+      "faq_id": 21,
+      "query": "È possibile annullare l'ordine?",
+      "answer": "Solo se l'ordine non è ancora stato spedito. Vai su I miei ordini > Annulla."
+    },
+    {
+      "faq_id": 22,
+      "query": "Perché è così lenta la consegna?",
+      "answer": "Ci dispiace per il ritardo. Verifica lo stato nel tracking; se è bloccato da oltre 48h contattaci."
+    },
+    {
+      "faq_id": 23,
+      "query": "Più veloce così oppure no?",
+      "answer": "Per risposte rapide usa la chat live negli orari di apertura, media di attesa 2 minuti."
+    },
+    {
+      "faq_id": 24,
+      "query": "Città coperte dalla consegna in giornata?",
+      "answer": "Milano, Roma, Torino, Bologna e Napoli per ordini effettuati entro le 11:00."
+    },
+    {
+      "faq_id": 25,
+      "query": "Università studenti hanno sconto?",
+      "answer": "Sì, 10% di sconto verificando lo status studente tramite il portale dedicato."
+    },
+
+    {
+      "faq_id": 26,
+      "query": "HELP!!!",
+      "answer": "Sono qui per aiutarti. Dimmi pure di cosa hai bisogno: ordini, pagamenti, account o altro?"
+    },
+    {
+      "faq_id": 27,
+      "query": "non funziona niente",
+      "answer": "Mi dispiace. Prova a: 1) ricaricare la pagina, 2) fare logout e login, 3) svuotare la cache. Se persiste, dimmi cosa non funziona."
+    },
+    {
+      "faq_id": 28,
+      "query": "       ciao    ",
+      "answer": "Ciao! Come posso aiutarti oggi?"
+    },
+    {
+      "faq_id": 29,
+      "query": "?????",
+      "answer": "Non ho capito la domanda. Puoi riformularla? Posso aiutarti con ordini, pagamenti, account e altro."
+    },
+    {
+      "faq_id": 30,
+      "query": "Come funziona il reso gratuito?",
+      "answer": "Richiedi il reso da Area Clienti, stampa l'etichetta prepagata e consegnala in un punto di ritiro. Il rimborso arriva entro 10 giorni."
+    }
+  ]
+}
