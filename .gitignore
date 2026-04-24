@@ -22,7 +22,8 @@ env/
 Thumbs.db
 
 # Appunti / test personali
-*.txt
+EmbHook.txt
+TODO.txt
 hooks/
 
 # File py
