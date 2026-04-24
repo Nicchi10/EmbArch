@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ambiente virtuale
+venv/
+env/
+.env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Appunti / test personali
+*.txt
+hooks/
+
+# File py
+env.py
+db.py
+
+# Ambiente e secrets
+.env
+alembic.ini
+
+# Dati locali
+*.db
+*.sqlite
+*.sqlite3
