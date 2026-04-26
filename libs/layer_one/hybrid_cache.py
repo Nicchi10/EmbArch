@@ -261,7 +261,7 @@ class HybridCache:
         for ng in self._ngrams(norm):
             pipe.srem(self._ngram_key(ng), norm)
         pipe.execute()
-        print(f"Orphan cleanup norm={norm}")
+        print(f"Seed cleanup norm={norm}")
 
     @staticmethod
     def _hit(raw: bytes, source: str, score: float) -> dict:

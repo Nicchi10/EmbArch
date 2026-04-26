@@ -1,5 +1,5 @@
 from db import get_db
-from hooks.fuzzy import fuzzy_test, fuzzy_process_test
+from libs.layer_one.hybrid_cache import HybridCache
 
 def test_connection():
     try:
