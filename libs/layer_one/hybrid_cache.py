@@ -7,7 +7,9 @@ import re
 from dataclasses import dataclass
 from typing import Optional
 import time
+import logging
 
+logger = logging.getLogger(__name__)
 
 # ============ CONFIG ============ 
 
@@ -20,6 +22,11 @@ class CacheConfig:
     min_shared_ngrams: int = 2        
     refresh_ttl_on_hit: bool = True 
 
+    max_entries: int = 1000
+
+    # --- Early exit ---
+    # early_exit_score: float = 95.0
+
 # ============ MASTER CLASS ============ 
 
 class HybridCache:
@@ -27,8 +34,12 @@ class HybridCache:
     _PUNCT_RE = re.compile(r"[^\w\s]", flags=re.UNICODE) # Catch not alphanumeric
     _WS_RE = re.compile(r"\s+") # Catch consecutive sequences of white spaces
 
+    _LRFU_KEY = "faq:lrfu"
+    _HITS_KEY = "faq:hits"
+
 
     def __init__(self, redis_client: redis.Redis, config: Optional[CacheConfig] = None):
+        logger.info(" ====== Inizialized HybridCache ====== ")
         self.r = redis_client
         self.config = config or CacheConfig()
 
@@ -54,6 +65,8 @@ class HybridCache:
 
         t = self._PUNCT_RE.sub(" ", t)
         t = self._WS_RE.sub(" ", t).strip()
+
+        logger.debug(f"normalize() - input string: {text}, normalized string: {t}")
 
         return t
 
@@ -84,6 +97,7 @@ class HybridCache:
         return f"ngram:{ngram}"
 
     # ====== GET ======
+
     def get(self, query: str) -> Optional[dict]:
         """
         Two-stage lookup: exact match first, fuzzy fallback via trigrams.
@@ -151,6 +165,7 @@ class HybridCache:
         return self._hit(raw, source="L1b_fuzzy", score=score)
     
     # ====== SET ======
+
     def set(self, query: str, answer: str, faq_id: int) -> str:
         """_summary_
         Persist a query --> answer mapping and index it by trigrams, in a
@@ -187,9 +202,14 @@ class HybridCache:
             {"answer": answer, "faq_id": faq_id, "query": norm},
             ensure_ascii=False,
         )
- 
+
+        self._evict_if_needed()
+
+        now = time.time()    
         pipe = self.r.pipeline()
         pipe.setex(self._key(norm), self.config.expire_seconds, payload)
+        pipe.zadd(self._LRFU_KEY, {norm: now})
+        pipe.hsetnx(self._HITS_KEY, norm, 0)
         for ng in self._ngrams(norm):
             ng_key = self._ngram_key(ng)
             pipe.sadd(ng_key, norm)
@@ -197,8 +217,52 @@ class HybridCache:
             pipe.expire(ng_key, self.config.expire_seconds)
         pipe.execute()
  
-        print(f"Cached norm={norm} ({len(self._ngrams(norm))}trigrammi)")
+        logger.info(f"set() - Cached norm={norm} ({len(self._ngrams(norm))}trigrams)")
         return norm
+
+    def _evict_if_needed(self):
+        """_summary_
+        If _LRFU_KEY is == max_candidates:
+            - scrolls through all keys
+            - for each withdraws last_access and hit numbers
+            - computed the least hitted and oldest one
+            - removes it from cache
+        Else
+            - return
+        """
+        current_size = self.r.zcard(self._LRFU_KEY)
+
+        if current_size < self.config.max_candidates:
+            return
+        
+        # Recovers all items with last access
+        lrfu_items = self.r.zrange(self._LRFU_KEY, 0, -1, withscores=True)
+
+        now = time.time()
+        min_score = float('inf')
+        victim_key = None
+
+        for key, last_access in lrfu_items:
+
+            key = key.decode() if isinstance(key, bytes) else key
+
+            hits_raw = self.r.get(self._HITS_KEY, key)
+            hit = int(hits_raw) if hits_raw else 0
+
+            age = now - float(last_access) # further last_access is, bigger age becomes
+
+            score = age / (hit + 1) # to avoid division by 0 
+
+            if score > min_score:
+                min_score = score
+                victim_key = key
+        
+        logger.debug(f"_evict_if_needed() - found victim: {victim_key}")
+
+        self.r.delete(self._key(victim_key))
+        self.r.zrem(self._LRFU_KEY, victim_key)
+        self.r.hdel(self._HITS_KEY, victim_key)
+        self._cleanup_seed(victim_key)
 
     # ============ INVALIDATION ============ 
 
@@ -230,8 +294,7 @@ class HybridCache:
 
     def _collect_candidates(self, ngrams: set[str]) -> dict[str, int]:
         """_summary_
-        Fetch all cached queries that share at least one ngram with the input,
-        uses a Redis pipeline to retrieve all buckets in a single round-trip
+        Fetch all cached queries that share at least one ngram with the input
         Args:
             ngrams (set[str]): _description_
 
@@ -261,11 +324,12 @@ class HybridCache:
         for ng in self._ngrams(norm):
             pipe.srem(self._ngram_key(ng), norm)
         pipe.execute()
-        print(f"Seed cleanup norm={norm}")
+        logger.info(f"_cleanup_seed() - Seed cleanup norm={norm}")
 
     @staticmethod
     def _hit(raw: bytes, source: str, score: float) -> dict:
         data = json.loads(raw)
         data["source"] = source
         data["match_score"] = round(float(score), 2)
+        logger.info(f"_hit() - hitted: {data}")
         return data

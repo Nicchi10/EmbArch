@@ -212,7 +212,7 @@ class HybridCacheEnhanced(HybridCache):
             return
 
         overflow = size - self.config.max_entries
-        # Rimuovi almeno overflow + un piccolo batch per ammortizzare
+        
         to_remove = overflow + self.config.eviction_batch
         victims = self.r.zpopmin(self._LRFU_KEY, count=to_remove)
 
@@ -230,7 +230,7 @@ class HybridCacheEnhanced(HybridCache):
                 pipe.srem(self._ngram_key(ng), norm)
         pipe.execute()
 
-        print(f"[evict] rimosse {len(evicted_norms)} entry: {evicted_norms[:5]}...")
+        print(f"[evict] removed {len(evicted_norms)} entry: {evicted_norms[:5]}...")
 
     def _cleanup_metadata(self, norm: str) -> None:
         
@@ -315,5 +315,5 @@ class HybridCacheEnhanced(HybridCache):
         pipe.execute()
 
         print(
-            f"[idf] ricalcolati {len(idf_updates)} trigrammi su {n_docs} docs"
+            f"[idf] reworked {len(idf_updates)} trigrams on {n_docs} docs"
         )

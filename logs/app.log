@@ -1,0 +1,3 @@
+2026-04-27 16:52:14,005 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:42]:  ====== Inizialized HybridCache ====== 
+2026-04-27 16:52:14,005 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: [HYBRIDCACHE] - normalize() - input string: Come reimposto la password?, normalized string: come reimposto la password
+2026-04-27 16:52:14,007 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:334]: [HYBRIDCACHE] - _hit() - hitted: {'answer': "Vai su Impostazioni > Sicurezza > Reimposta password. Riceverai un'email con le istruzioni.", 'faq_id': 1, 'query': 'come resetto la password', 'source': 'L1b_fuzzy', 'match_score': 88.0}
