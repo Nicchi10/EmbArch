@@ -1,1 +1,67 @@
-
+2026-04-27 16:52:14,005 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:42]:  ====== Inizialized HybridCache ====== 
+2026-04-27 16:52:14,005 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: [HYBRIDCACHE] - normalize() - input string: Come reimposto la password?, normalized string: come reimposto la password
+2026-04-27 16:52:14,007 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:334]: [HYBRIDCACHE] - _hit() - hitted: {'answer': "Vai su Impostazioni > Sicurezza > Reimposta password. Riceverai un'email con le istruzioni.", 'faq_id': 1, 'query': 'come resetto la password', 'source': 'L1b_fuzzy', 'match_score': 88.0}
+2026-05-03 16:37:03,723 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:42]:  ====== Inizialized HybridCache ====== 
+2026-05-03 16:37:03,723 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come reimposto la password?, normalized string: come reimposto la password
+2026-05-03 16:38:45,836 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:42]:  ====== Inizialized HybridCache ====== 
+2026-05-03 16:38:45,837 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come resetto la password?, normalized string: come resetto la password
+2026-05-03 16:38:45,840 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=come resetto la password (24trigrams)
+2026-05-03 16:38:45,840 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Quali sono gli orari di apertura?, normalized string: quali sono gli orari di apertura
+2026-05-03 16:38:45,840 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=quali sono gli orari di apertura (31trigrams)
+2026-05-03 16:38:45,840 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Dove posso scaricare la fattura?, normalized string: dove posso scaricare la fattura
+2026-05-03 16:38:45,841 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=dove posso scaricare la fattura (30trigrams)
+2026-05-03 16:38:45,841 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come contatto l'assistenza?, normalized string: come contatto l assistenza
+2026-05-03 16:38:45,842 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=come contatto l assistenza (25trigrams)
+2026-05-03 16:38:45,842 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Quanto costa la spedizione?, normalized string: quanto costa la spedizione
+2026-05-03 16:38:45,843 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=quanto costa la spedizione (26trigrams)
+2026-05-03 16:38:45,843 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Posso restituire un prodotto?, normalized string: posso restituire un prodotto
+2026-05-03 16:38:45,844 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=posso restituire un prodotto (28trigrams)
+2026-05-03 16:38:45,844 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Quali metodi di pagamento accettate?, normalized string: quali metodi di pagamento accettate
+2026-05-03 16:38:45,845 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=quali metodi di pagamento accettate (34trigrams)
+2026-05-03 16:38:45,845 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come traccio il mio ordine?, normalized string: come traccio il mio ordine
+2026-05-03 16:38:45,846 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=come traccio il mio ordine (25trigrams)
+2026-05-03 16:38:45,846 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Posso cambiare l'indirizzo di spedizione?, normalized string: posso cambiare l indirizzo di spedizione
+2026-05-03 16:38:45,847 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=posso cambiare l indirizzo di spedizione (40trigrams)
+2026-05-03 16:38:45,847 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Cos'è il programma fedeltà?, normalized string: cos e il programma fedelta
+2026-05-03 16:38:45,848 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=cos e il programma fedelta (26trigrams)
+2026-05-03 16:38:45,848 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Perché non ricevo le email?, normalized string: perche non ricevo le email
+2026-05-03 16:38:45,848 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=perche non ricevo le email (26trigrams)
+2026-05-03 16:38:45,849 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come elimino il mio account?, normalized string: come elimino il mio account
+2026-05-03 16:38:45,849 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=come elimino il mio account (27trigrams)
+2026-05-03 16:38:45,849 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Avete un'app mobile?, normalized string: avete un app mobile
+2026-05-03 16:38:45,850 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=avete un app mobile (19trigrams)
+2026-05-03 16:38:45,850 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Fate consegne all'estero?, normalized string: fate consegne all estero
+2026-05-03 16:38:45,851 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=fate consegne all estero (24trigrams)
+2026-05-03 16:38:45,851 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Il prodotto è coperto da garanzia?, normalized string: il prodotto e coperto da garanzia
+2026-05-03 16:38:45,852 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=il prodotto e coperto da garanzia (32trigrams)
+2026-05-03 16:38:45,852 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: perché il mio gatto fissa il muro alle 3 di notte?, normalized string: perche il mio gatto fissa il muro alle 3 di notte
+2026-05-03 16:38:45,853 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=perche il mio gatto fissa il muro alle 3 di notte (46trigrams)
+2026-05-03 16:38:45,853 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: I pinguini hanno le ginocchia?, normalized string: i pinguini hanno le ginocchia
+2026-05-03 16:38:45,854 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=i pinguini hanno le ginocchia (29trigrams)
+2026-05-03 16:38:45,854 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Quanto è lungo un secondo su Giove?, normalized string: quanto e lungo un secondo su giove
+2026-05-03 16:38:45,856 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=quanto e lungo un secondo su giove (34trigrams)
+2026-05-03 16:38:45,856 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Posso parlare con un umano?, normalized string: posso parlare con un umano
+2026-05-03 16:38:45,857 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=posso parlare con un umano (25trigrams)
+2026-05-03 16:38:45,857 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Sei un robot?, normalized string: sei un robot
+2026-05-03 16:38:45,857 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=sei un robot (12trigrams)
+2026-05-03 16:38:45,857 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: È possibile annullare l'ordine?, normalized string: e possibile annullare l ordine
+2026-05-03 16:38:45,858 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=e possibile annullare l ordine (30trigrams)
+2026-05-03 16:38:45,858 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Perché è così lenta la consegna?, normalized string: perche e cosi lenta la consegna
+2026-05-03 16:38:45,858 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=perche e cosi lenta la consegna (30trigrams)
+2026-05-03 16:38:45,858 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Più veloce così oppure no?, normalized string: piu veloce cosi oppure no
+2026-05-03 16:38:45,859 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=piu veloce cosi oppure no (25trigrams)
+2026-05-03 16:38:45,859 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Città coperte dalla consegna in giornata?, normalized string: citta coperte dalla consegna in giornata
+2026-05-03 16:38:45,859 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=citta coperte dalla consegna in giornata (37trigrams)
+2026-05-03 16:38:45,859 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Università studenti hanno sconto?, normalized string: universita studenti hanno sconto
+2026-05-03 16:38:45,860 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=universita studenti hanno sconto (32trigrams)
+2026-05-03 16:38:45,860 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: HELP!!!, normalized string: help
+2026-05-03 16:38:45,860 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=help (4trigrams)
+2026-05-03 16:38:45,860 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: non funziona niente, normalized string: non funziona niente
+2026-05-03 16:38:45,860 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=non funziona niente (19trigrams)
+2026-05-03 16:38:45,860 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string:        ciao    , normalized string: ciao
+2026-05-03 16:38:45,861 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=ciao (4trigrams)
+2026-05-03 16:38:45,861 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: ?????, normalized string: 
+2026-05-03 16:38:45,861 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come funziona il reso gratuito?, normalized string: come funziona il reso gratuito
+2026-05-03 16:38:45,861 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:220]: set() - Cached norm=come funziona il reso gratuito (30trigrams)
+2026-05-03 16:38:45,861 [DEBUG] libs.layer_one.hybrid_cache [hybrid_cache.py:69]: normalize() - input string: Come reimposto la password?, normalized string: come reimposto la password
+2026-05-03 16:38:45,862 [INFO] libs.layer_one.hybrid_cache [hybrid_cache.py:334]: _hit() - hitted: {'answer': "Vai su Impostazioni > Sicurezza > Reimposta password. Riceverai un'email con le istruzioni.", 'faq_id': 1, 'query': 'come resetto la password', 'source': 'L1b_fuzzy', 'match_score': 88.0}

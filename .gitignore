@@ -62,6 +62,7 @@ test.py
 */env.py
 !/alembic/env.py
 db.py
+hybrid_cache_enhanced.py
 
 # Ambiente e secrets
 .env

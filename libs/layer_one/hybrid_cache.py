@@ -1,7 +1,7 @@
 from __future__ import annotations
 import redis
 import json
-from rapidfuzz import fuzz, process, utils
+from rapidfuzz import fuzz, process
 import unicodedata
 import re
 from dataclasses import dataclass
@@ -24,9 +24,7 @@ class CacheConfig:
 
     max_entries: int = 1000
 
-    # --- Early exit ---
-    # early_exit_score: float = 95.0
-
+    
 # ============ MASTER CLASS ============ 
 
 class HybridCache:
@@ -46,7 +44,7 @@ class HybridCache:
     # ====== NORMALIZATION ======
 
     def normalize(self, text: str) -> str:
-        """_summary_
+        """
         Lowercase + removal punctuation + removal mark + collapse whitespace
         e.g: '  WhY??? ? ' --> 'why'
         Args:
@@ -71,7 +69,7 @@ class HybridCache:
         return t
 
     def _ngrams(self, text: str) -> set[str]:
-        """_summary_
+        """
         Padding trigrams to capture start/end of words
         Args:
             text (str): user query
@@ -129,6 +127,8 @@ class HybridCache:
             return None
 
         # === L1a EXACT MATCH ===
+
+        # TODO() : updates LRFU & HITS
         exact = self.r.get(self._key(norm))
         if exact:
             self._maybe_refresh_ttl(norm)
@@ -159,7 +159,15 @@ class HybridCache:
 
         if raw is None:
             self._cleanup_seed(best_key)
+            self._cleanup_metadata(best_key)
             return None
+        
+        # updates LRFU & HITS
+        now = time.time()
+        pipe = self.r.pipeline()
+        pipe.zadd(self._LRFU_KEY, {best_key: now})
+        pipe.hincrby(self._HITS_KEY, best_key, 1)
+        pipe.execute()
         
         self._maybe_refresh_ttl(best_key)
         return self._hit(raw, source="L1b_fuzzy", score=score)
@@ -167,7 +175,7 @@ class HybridCache:
     # ====== SET ======
 
     def set(self, query: str, answer: str, faq_id: int) -> str:
-        """_summary_
+        """
         Persist a query --> answer mapping and index it by trigrams, in a
         single pipelined round-trip to Redis.
 
@@ -203,12 +211,13 @@ class HybridCache:
             ensure_ascii=False,
         )
 
-        self._evict_if_needed()
+        if not self.r.exists(self._key(norm)):
+            self._evict_if_needed()
 
         now = time.time()    
         pipe = self.r.pipeline()
         pipe.setex(self._key(norm), self.config.expire_seconds, payload)
-        pipe.zadd(self._LRFU_KEY, {norm: now})
+        pipe.zadd(self._LRFU_KEY, {norm: now}) # upsert: creates or updates timestamp
         pipe.hsetnx(self._HITS_KEY, norm, 0)
         for ng in self._ngrams(norm):
             ng_key = self._ngram_key(ng)
@@ -222,7 +231,7 @@ class HybridCache:
 
     def _evict_if_needed(self):
         """_summary_
-        If _LRFU_KEY is == max_candidates:
+        If _LRFU_KEY is == max_entries:
             - scrolls through all keys
             - for each withdraws last_access and hit numbers
             - computed the least hitted and oldest one
@@ -232,42 +241,51 @@ class HybridCache:
         """
         current_size = self.r.zcard(self._LRFU_KEY)
 
-        if current_size < self.config.max_candidates:
+        if current_size < self.config.max_entries:
             return
         
         # Recovers all items with last access
         lrfu_items = self.r.zrange(self._LRFU_KEY, 0, -1, withscores=True)
 
         now = time.time()
-        min_score = float('inf')
+        max_score = float('-inf')
         victim_key = None
+
+        hits_raw = self.r.hgetall(self._HITS_KEY) or {}
+
+        hits = {
+            (k.decode() if isinstance(k, bytes) else k): int(v)
+            for k, v in hits_raw.items()
+        }
+
 
         for key, last_access in lrfu_items:
 
             key = key.decode() if isinstance(key, bytes) else key
 
-            hits_raw = self.r.get(self._HITS_KEY, key)
-            hit = int(hits_raw) if hits_raw else 0
-
             age = now - float(last_access) # further last_access is, bigger age becomes
 
-            score = age / (hit + 1) # to avoid division by 0 
+            score = age / (hits.get(key, 0) + 1) # to avoid division by 0 
 
-            if score > min_score:
-                min_score = score
+            if score > max_score:
+                max_score = score
                 victim_key = key
         
         logger.debug(f"_evict_if_needed() - found victim: {victim_key}")
 
-        self.r.delete(self._key(victim_key))
-        self.r.zrem(self._LRFU_KEY, victim_key)
-        self.r.hdel(self._HITS_KEY, victim_key)
+        pipe = self.r.pipeline()
+        pipe.delete(self._key(victim_key))
+        pipe.zrem(self._LRFU_KEY, victim_key)
+        pipe.hdel(self._HITS_KEY, victim_key)
+        pipe.execute()
+        
         self._cleanup_seed(victim_key)
+        self._cleanup_metadata(victim_key)
 
     # ============ INVALIDATION ============ 
 
     def invalidate(self, query: str) -> bool:
-        """_summary_
+        """
         Explicit removal
         Args:
             query (str): _description_
@@ -279,9 +297,10 @@ class HybridCache:
         deleted = self.r.delete(self._key(norm)) > 0
         if deleted:
             self._cleanup_seed(norm)
+            self._cleanup_metadata(norm)
         return deleted
     
-    # ============ UTILS ============ 
+    # ============ TTL ============ 
 
     def _maybe_refresh_ttl(self, norm: str):
         """_summary_
@@ -292,8 +311,57 @@ class HybridCache:
         if self.config.refresh_ttl_on_hit:
             self.r.expire(self._key(norm), self.config.expire_seconds)
 
+    def _compute_refresh_ttl(self) -> None:
+        """
+        Adaptive TTL based on hit frequency.
+        Reads the hit counter for every tracked key in a single HGETALL,
+        computes the mean, and updates TTLs:
+        - hits below mean      -> halved TTL (cold keys leave faster)
+        - hits above 2x mean   -> full TTL  (hot keys stay)
+        - in between           -> untouched (their current TTL keeps running)
+
+        TODO(): Add LRFU logic
+        """
+        
+        lrfu_items = self.r.zrange(self._LRFU_KEY, 0, -1, withscores=False)
+        if not lrfu_items:
+            return
+
+        
+        hits_raw = self.r.hgetall(self._HITS_KEY)  
+        if not hits_raw:
+            return
+
+        hits = {
+            (k.decode() if isinstance(k, bytes) else k): int(v)
+            for k, v in hits_raw.items()
+        }
+
+        if not hits:
+            return
+
+        mean = sum(hits.values()) / len(hits)
+        hot_threshold = mean * 2  
+
+        full_ttl = self.config.expire_seconds
+        short_ttl = full_ttl // 2
+
+        pipe = self.r.pipeline()
+        for key in lrfu_items:
+            key = key.decode() if isinstance(key, bytes) else key
+            count = hits.get(key, 0)
+
+            if count < mean:
+                pipe.expire(self._key(key), short_ttl)
+            elif count > hot_threshold:
+                pipe.expire(self._key(key), full_ttl)
+
+        pipe.execute()
+
+    # ============ UTILS ============ 
+
     def _collect_candidates(self, ngrams: set[str]) -> dict[str, int]:
-        """_summary_
+        """
         Fetch all cached queries that share at least one ngram with the input
         Args:
             ngrams (set[str]): _description_
@@ -314,7 +382,7 @@ class HybridCache:
         return counter
     
     def _cleanup_seed(self, norm: str):
-        """_summary_
+        """
         Removes a normalized keys from its triagrams bucket
         Args:
             norm (str): normalized query
@@ -325,6 +393,17 @@ class HybridCache:
             pipe.srem(self._ngram_key(ng), norm)
         pipe.execute()
         logger.info(f"_cleanup_seed() - Seed cleanup norm={norm}")
+
+    def _cleanup_metadata(self, norm: str):
+        """
+        Removes a normalized keys from its LRFU e HITS data structures
+        Args:
+            norm (str): _description_
+        """
+        pipe = self.r.pipeline()
+        pipe.zrem(self._LRFU_KEY, norm)
+        pipe.hdel(self._HITS_KEY, norm)
+        pipe.execute()
 
     @staticmethod
     def _hit(raw: bytes, source: str, score: float) -> dict:
